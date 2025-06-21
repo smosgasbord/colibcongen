@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coLiberate Social Media Content Generator</title>
+    <title>Social Media Content Generator</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -87,15 +87,87 @@
             background-size: 1.5em 1.5em;
             padding-right: 2.5rem;
         }
+
+        /* CSS Grid for content cards */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .content-grid {
+                grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+                gap: 2rem;
+            }
+        }
+
+        /* Card hover effects */
+        .content-card {
+            transition: all 0.2s ease-in-out;
+        }
+
+        .content-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Ensure cards have equal height in grid */
+        .content-card {
+            height: fit-content;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-card .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Staggered animation for cards */
+        .content-card {
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .content-card:nth-child(1) { animation-delay: 0.1s; }
+        .content-card:nth-child(2) { animation-delay: 0.2s; }
+        .content-card:nth-child(3) { animation-delay: 0.3s; }
+        .content-card:nth-child(4) { animation-delay: 0.4s; }
+        .content-card:nth-child(5) { animation-delay: 0.5s; }
+        .content-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-    <div class="container mx-auto px-4 py-8 max-w-6xl">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Header -->
         <div class="text-center mb-8">
             <div class="flex items-center justify-center gap-2 mb-4">
                 
-                <h1 class="text-4xl font-bold text-gray-900">coLiberate Social Media Content Ideas Generator </h1>
+                <h1 class="text-4xl font-bold text-gray-900">Social Media Content Generator</h1>
             </div>
             <p class="text-lg text-gray-600 max-w-2xl mx-auto">
                 Generate engaging social media content ideas tailored to your topic and preferred platform
@@ -133,7 +205,7 @@
                             required
                         >
                             <option value="">Choose a platform...</option>
-                            <option value="twitter">🐦 X/Twitter</option>
+                            <option value="twitter">🐦 Twitter</option>
                             <option value="instagram">📸 Instagram</option>
                             <option value="facebook">👥 Facebook</option>
                             <option value="linkedin">💼 LinkedIn</option>
@@ -159,7 +231,6 @@
                         id="submitBtn"
                         class="w-full flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                        
                         <span id="submitText">Generate Content Ideas</span>
                     </button>
                 </form>
@@ -181,7 +252,7 @@
                             Gathering information and generating ideas<span class="loading-dots"></span>
                         </h3>
                         <p class="text-sm text-gray-600">
-                            This may take up from 1 to 2 minutess while we research and create personalized content for <span id="selectedPlatformName"></span>
+                            This may take up to 3 minutes while we create personalized content for <span id="selectedPlatformName"></span>
                         </p>
                     </div>
                     <div id="platformBadge" class="flex items-center space-x-1 bg-gray-100 px-4 py-2 rounded-full">
@@ -193,7 +264,7 @@
         </div>
 
         <!-- Mock Data Notice -->
-        <div id="mockNotice" class="hidden bg-blue-50 border border-blue-200 rounded-md p-4 max-w-4xl mx-auto mb-6">
+        <div id="mockNotice" class="hidden bg-blue-50 border border-blue-200 rounded-md p-4 max-w-6xl mx-auto mb-6">
             <div class="flex items-start gap-3">
                 <svg class="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -207,11 +278,11 @@
         </div>
 
         <!-- Results -->
-        <div id="results" class="hidden max-w-4xl mx-auto">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 text-center">
+        <div id="results" class="hidden max-w-6xl mx-auto">
+            <h2 class="text-2xl font-bold text-gray-900 mb-8 text-center">
                 Generated Content Ideas
             </h2>
-            <div id="contentContainer" class="space-y-4">
+            <div id="contentContainer" class="content-grid">
                 <!-- Content will be dynamically inserted here -->
             </div>
         </div>
@@ -302,9 +373,39 @@
         function generateMockResponse(topic) {
             return [
                 {
-                    title: `🌟 Sample idea for ${topic}`,
-                    description: `This is mock content because the webhook timed out. Replace with real data once the workflow is up.`,
-                    publication: "v0 Demo",
+                    title: `🌟 Trending Topic: ${topic}`,
+                    description: `Create engaging content around ${topic} by sharing personal experiences and actionable tips. Focus on storytelling to connect with your audience.`,
+                    publication: "Content Strategy Guide",
+                    source_link: "https://vercel.com"
+                },
+                {
+                    title: `💡 Educational Series: ${topic} Basics`,
+                    description: `Break down complex ${topic} concepts into digestible posts. Use carousel posts or thread formats to explain step-by-step processes.`,
+                    publication: "Social Media Best Practices",
+                    source_link: "https://vercel.com"
+                },
+                {
+                    title: `🎯 Behind-the-Scenes: ${topic} Journey`,
+                    description: `Share your personal journey or case studies related to ${topic}. Authentic stories perform well and build trust with your audience.`,
+                    publication: "Engagement Strategies",
+                    source_link: "https://vercel.com"
+                },
+                {
+                    title: `📊 Data-Driven: ${topic} Statistics`,
+                    description: `Share interesting statistics, trends, or research findings about ${topic}. Visual data presentations get high engagement.`,
+                    publication: "Analytics Insights",
+                    source_link: "https://vercel.com"
+                },
+                {
+                    title: `🤝 Community Focus: ${topic} Discussion`,
+                    description: `Start conversations by asking questions about ${topic}. Encourage your audience to share their experiences and opinions.`,
+                    publication: "Community Building",
+                    source_link: "https://vercel.com"
+                },
+                {
+                    title: `🔥 Quick Tips: ${topic} Hacks`,
+                    description: `Share quick, actionable tips related to ${topic}. Short-form content with immediate value tends to get shared frequently.`,
+                    publication: "Viral Content Guide",
                     source_link: "https://vercel.com"
                 }
             ];
@@ -439,21 +540,21 @@
             contentContainer.innerHTML = '';
 
             if (Array.isArray(items) && items.length > 0 && items[0]?.title) {
-                // Webhook format
+                // Webhook format - render as grid cards
                 items.forEach((item, index) => {
                     const card = document.createElement('div');
-                    card.className = 'bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-blue-500';
+                    card.className = 'content-card bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 border-l-blue-500';
                     card.innerHTML = `
-                        <div class="p-4">
-                            <div class="space-y-3">
-                                <h3 class="font-semibold text-lg text-gray-900">${item.title}</h3>
-                                <p class="text-gray-600 leading-relaxed">${item.description}</p>
+                        <div class="card-content p-6">
+                            <div class="space-y-4">
+                                <h3 class="font-semibold text-lg text-gray-900 leading-tight">${item.title}</h3>
+                                <p class="text-gray-600 leading-relaxed flex-grow">${item.description}</p>
                                 ${item.source_link ? `
-                                    <div class="flex items-center gap-2 text-sm text-blue-600">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="flex items-center gap-2 text-sm text-blue-600 pt-2 border-t border-gray-100">
+                                        <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                         </svg>
-                                        <a href="${item.source_link}" target="_blank" rel="noopener noreferrer" class="hover:underline">
+                                        <a href="${item.source_link}" target="_blank" rel="noopener noreferrer" class="hover:underline font-medium">
                                             ${item.publication || 'Source'}
                                         </a>
                                     </div>
@@ -464,9 +565,9 @@
                     contentContainer.appendChild(card);
                 });
             } else {
-                // Raw format fallback
+                // Raw format fallback - single card spanning full width
                 const card = document.createElement('div');
-                card.className = 'bg-white rounded-lg shadow-sm border border-gray-200';
+                card.className = 'content-card bg-white rounded-lg shadow-sm border border-gray-200 col-span-full';
                 card.innerHTML = `
                     <div class="p-6">
                         <h3 class="font-semibold text-lg text-gray-900 mb-4">Generated Content</h3>
@@ -477,6 +578,11 @@
             }
 
             results.classList.remove('hidden');
+            
+            // Scroll to results
+            setTimeout(() => {
+                results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         // Form submission handler
